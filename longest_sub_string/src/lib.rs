@@ -24,13 +24,23 @@ impl Solution {
         largest_len as i32
     }
 
-    pub fn length_of_longest_substring_v2(s: String) -> i32 {
+    pub fn length_of_longest_substring_entry_and_modify(s: String) -> i32 {
         let mut long_sub_map: HashMap<char, usize> = HashMap::new();
         let mut start_idx = 0;
         let mut largest_len = 0;
 
         for (idx, c) in s.char_indices() {
-            
+            long_sub_map.entry(c).and_modify(
+                |old_idx| {
+                    if *old_idx >= start_idx {
+                        largest_len = max(largest_len, idx - *old_idx);
+                    }
+                    else { largest_len = max(largest_len, idx - start_idx + 1); }
+                }
+                )
+                .or_insert(idx);
+            largest_len = max(largest_len, idx - start_idx + 1);
         }
+        largest_len as i32
     }
 }
