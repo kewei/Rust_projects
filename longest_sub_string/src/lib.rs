@@ -30,17 +30,61 @@ impl Solution {
         let mut largest_len = 0;
 
         for (idx, c) in s.char_indices() {
-            long_sub_map.entry(c).and_modify(
-                |old_idx| {
+            long_sub_map.entry(c)
+                .and_modify(|old_idx| {
                     if *old_idx >= start_idx {
                         largest_len = max(largest_len, idx - *old_idx);
+                        start_idx = *old_idx + 1;
                     }
                     else { largest_len = max(largest_len, idx - start_idx + 1); }
-                }
-                )
+                    *old_idx = idx;
+                })
                 .or_insert(idx);
             largest_len = max(largest_len, idx - start_idx + 1);
         }
         largest_len as i32
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_length_of_longest_substring() {
+        let s1 = String::from("abcabcbb");
+        let len1 = Solution::length_of_longest_substring(s1);
+        assert_eq!(len1, 3);
+        let s2 = String::from("bbbbb");
+        let len2 = Solution::length_of_longest_substring(s2);
+        assert_eq!(len2, 1);
+        let s3 = String::from("pwwkew");
+        let len3 = Solution::length_of_longest_substring(s3);
+        assert_eq!(len3, 3);
+        let s4 = String::from("");
+        let len4 = Solution::length_of_longest_substring(s4);
+        assert_eq!(len4, 0);
+        let s5 = String::from(" ");
+        let len5 = Solution::length_of_longest_substring(s5);
+        assert_eq!(len5, 1);
+    }
+
+    #[test]
+    fn test_length_of_longest_substring_entry_and_modify() {
+        let s1 = String::from("abcabcbb");
+        let len1 = Solution::length_of_longest_substring_entry_and_modify(s1);
+        assert_eq!(len1, 3);
+        let s2 = String::from("bbbbb");
+        let len2 = Solution::length_of_longest_substring_entry_and_modify(s2);
+        assert_eq!(len2, 1);
+        let s3 = String::from("pwwkew");
+        let len3 = Solution::length_of_longest_substring_entry_and_modify(s3);
+        assert_eq!(len3, 3);
+        let s4 = String::from("");
+        let len4 = Solution::length_of_longest_substring_entry_and_modify(s4);
+        assert_eq!(len4, 0);
+        let s5 = String::from(" ");
+        let len5 = Solution::length_of_longest_substring_entry_and_modify(s5);
+        assert_eq!(len5, 1);
     }
 }
