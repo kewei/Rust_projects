@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, VecDeque};
 use std::cmp::max;
 use std::process::id;
 
@@ -44,6 +44,20 @@ impl Solution {
         }
         largest_len as i32
     }
+
+    pub fn length_of_longest_substring_vecdeque(s: String) -> i32 {
+        let (max_len, _) = s.chars().fold(
+            (0, VecDeque::with_capacity(s.len())),
+            |(max_len, mut sub_vec_deque), ch| {
+                if sub_vec_deque.contains(&ch) {
+                    while sub_vec_deque.pop_back() != Some(ch) { }
+                }
+                sub_vec_deque.push_front(ch);
+                (max(max_len, sub_vec_deque.len()), sub_vec_deque)
+            }
+        );
+        max_len as i32
+    }
 }
 
 #[cfg(test)]
@@ -85,6 +99,25 @@ mod tests {
         assert_eq!(len4, 0);
         let s5 = String::from(" ");
         let len5 = Solution::length_of_longest_substring_entry_and_modify(s5);
+        assert_eq!(len5, 1);
+    }
+
+    #[test]
+    fn test_length_of_longest_substring_vecdeque() {
+        let s1 = String::from("abcabcbb");
+        let len1 = Solution::length_of_longest_substring_vecdeque(s1);
+        assert_eq!(len1, 3);
+        let s2 = String::from("bbbbb");
+        let len2 = Solution::length_of_longest_substring_vecdeque(s2);
+        assert_eq!(len2, 1);
+        let s3 = String::from("pwwkew");
+        let len3 = Solution::length_of_longest_substring_vecdeque(s3);
+        assert_eq!(len3, 3);
+        let s4 = String::from("");
+        let len4 = Solution::length_of_longest_substring_vecdeque(s4);
+        assert_eq!(len4, 0);
+        let s5 = String::from(" ");
+        let len5 = Solution::length_of_longest_substring_vecdeque(s5);
         assert_eq!(len5, 1);
     }
 }
