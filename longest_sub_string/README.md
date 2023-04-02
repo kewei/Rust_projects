@@ -6,5 +6,7 @@ Given a string s, find the length of the longest substring without repeating cha
 ## Three methods:
 
 --- char_indices() with HashMap::contains_key()
+
 --- char_indices() with HashMap::entry() and and_modify()
+
 --- chars().fold() and VecDeque
