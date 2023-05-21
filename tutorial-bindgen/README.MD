@@ -1,0 +1,2 @@
+## Use C Libraries in Rust with Bindgen
+This is the code for the tutorial: [How to Use C Libraries with Bindgen in Rust?](https://www.keweizhang.com/2023/05/21/how-to-use-c-libraries-with-bindgen-in-rust/)
