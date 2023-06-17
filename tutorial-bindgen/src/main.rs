@@ -5,8 +5,12 @@
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
 use std::ptr;
+use std::env;
+use std::path::Path;
 
 fn main() {
+    let path = env::var("CARGO_MANIFEST_DIR").unwrap();
+    println!("path: {:?}", Path::new(&path));
     unsafe {
             let mut context_ptr: *mut libusb_context = ptr::null_mut();
             let result = libusb_init(&mut context_ptr);

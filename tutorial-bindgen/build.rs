@@ -1,10 +1,13 @@
 extern crate bindgen;
 
 use std::env;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 fn main() {
-    println!("cargo:rustc-link-search=/usr/lib/x86_64-linux-gnu");
+    let path = env::var("CARGO_MANIFEST_DIR").unwrap();
+    println!("path: {:?}", Path::new(&path));
+
+    // println!("cargo:rustc-link-search=/usr/lib/x86_64-linux-gnu");
     println!("cargo:rustc-link-lib=usb-1.0");
 
     println!("cargo:rerun-if-changed=wrapper.h");
